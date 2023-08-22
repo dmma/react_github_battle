@@ -1,18 +1,27 @@
-const PlayerDetails = ({battleTitle, player}) => {
+import PlayerPreview from "./PlayerPreview";
+
+const PlayerDetails = ({label, score, profile}) => {
     return (
         <div className='column'>
-            <ul className='space-list-items'>
-                <li style={{color: '#d0021b'}}>{battleTitle}</li>
-                <li>Score : {player.score}</li>
-                <li>{player.user.name}</li>
-                <li>{player.user.location}</li>
-                <li>{player.user.company}</li>
-                <li>Followers : {player.user.followers}</li>
-                <li>Following : {player.user.following}</li>
-                <li>
-                    <a href={player.user.repos_url} target='_blank'>Repos</a>
-                </li>
-            </ul>
+            <h1 className='header'>{label}</h1>
+            <h3 style={{textAlign: 'center'}}>Score : {score}</h3>
+            <PlayerPreview
+                id={profile.id}
+                avatar={profile.avatar_url}
+                userName={profile.login}>
+                <div className='column'>
+                    <ul className='space-list-items'>
+                        <li>{profile.name}</li>
+                        <li>{profile.location}</li>
+                        <li>{profile.company}</li>
+                        <li>Followers : {profile.followers}</li>
+                        <li>Following : {profile.following}</li>
+                        <li>
+                            <a href={profile.blog}>{profile.blog}</a>
+                        </li>
+                    </ul>
+                </div>
+            </PlayerPreview>
         </div>
     );
 }
