@@ -1,11 +1,11 @@
 import {useState} from "react";
 
 const PlayerInput = ({id, label, onSubmit}) => {
-    const [userName, setUserName] = useState('');
+    const [userName, setUserName] = useState(null);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        onSubmit(id, userName);
+        onSubmit(userName);
     }
 
     return (
@@ -19,7 +19,7 @@ const PlayerInput = ({id, label, onSubmit}) => {
                 value={userName}
                 onChange={(event) => setUserName(event.target.value)}
             />
-            <button className='button' disabled={!userName.length}>Submit</button>
+            <button className='button' disabled={!userName}>Submit</button>
         </form>
     );
 }
