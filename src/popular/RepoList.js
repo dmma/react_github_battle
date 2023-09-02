@@ -1,24 +1,31 @@
-const RepoList = ({repos}) => {
+import {useSelector} from "react-redux";
+import {Fragment} from "react";
+import Loader from "./Loader";
+import RepoItem from "./RepoItem";
+
+const RepoList = () => {
+    const reposIds = useSelector(state => state.popular.reposIds)
+    const loading = useSelector(state => state.popular.loading)
+    const error = useSelector(state => state.popular.error)
+
+    if (error) {
+        return <p>{error}</p>
+    }
+
     return (
-        <ul className='popular-list'>
-            {repos.map((repo, index) => {
-                return (
-                    <li key={repo.id} className='popular-item'>
-                        <div className='popular-rank'>#{index + 1}</div>
-                        <ul className='space-list-items'>
-                            <li>
-                                <img className='avatar' src={repo.owner.avatar_url} alt='Avatar'/>
-                            </li>
-                            <li>
-                                <a href={repo.html_url} target='_blank'>{repo.name}</a>
-                            </li>
-                            <li>{repo.owner.login}</li>
-                            <li>{repo.stargazers_count} stars</li>
-                        </ul>
-                    </li>
-                )
-            })}
-        </ul>
+        <Fragment>
+            <Loader isLoading={loading}/>
+            <ul className='popular-list'>
+                {reposIds.map((id, index) => {
+                    return (
+                        <RepoItem
+                            key={id}
+                            id={id}
+                            index={index}
+                        />)
+                })}
+            </ul>
+        </Fragment>
     );
 }
 export default RepoList;
