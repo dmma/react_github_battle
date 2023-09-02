@@ -1,64 +1,46 @@
-import {useState} from "react";
 import PlayerPreview from "./PlayerPreview";
 import PlayerInput from "./PlayerInput";
 import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {setPlayerOneName, setPlayerTwoName} from "../redux/battle/BattleActions";
 
 const Battle = () => {
-    const [playerData, setPlayerData] = useState({
-        playerOneName: '',
-        playerTwoName: '',
-        playerOneImage: null,
-        playerTwoImage: null
-    });
-
-    const handleSubmit = (id, userName) => {
-        setPlayerData((prevState) => ({
-            ...prevState,
-            [`${id}Name`]: userName,
-            [`${id}Image`]: `https://github.com/${userName}.png?size200`
-        }))
-    }
-
-    const handleReset = (id) => {
-        setPlayerData((prevState) => ({
-            ...prevState,
-            [`${id}Name`]: '',
-            [`${id}Image`]: null
-        }))
-    }
+    const playerOneName = useSelector(state => state.battle.playerOneName);
+    const playerTwoName = useSelector(state => state.battle.playerTwoName);
+    const dispatch = useDispatch();
 
     return (
         <div>
             <div className='row'>
-                {playerData.playerOneImage ?
+                {playerOneName ?
                     <PlayerPreview
                         id='playerOne'
-                        avatar={playerData.playerOneImage}
-                        userName={playerData.playerOneName}>
-                        <button className='reset' onClick={() => handleReset('playerOne')}>Reset</button>
+                        avatar={`https://github.com/${playerOneName}.png?size200`}
+                        userName={playerOneName}>
+                        <button className='reset' onClick={() => dispatch(setPlayerOneName(null))}>Reset</button>
                     </PlayerPreview> :
                     <PlayerInput
                         id='playerOne'
                         label='Player 1'
-                        onSubmit={handleSubmit}
+                        onSubmit={(name) => dispatch(setPlayerOneName(name))}
                     />}
-                {playerData.playerTwoImage ?
+                {playerTwoName ?
                     <PlayerPreview
                         id='playerTwo'
-                        avatar={playerData.playerTwoImage}
-                        userName={playerData.playerTwoName}>
-                        <button className='reset' onClick={() => handleReset('playerTwo')}>Reset</button>
+                        avatar={`https://github.com/${playerTwoName}.png?size200`}
+                        userName={playerTwoName}>
+                        <button className='reset' onClick={() => dispatch(setPlayerTwoName(null))}>Reset</button>
                     </PlayerPreview> :
                     <PlayerInput
                         id='playerTwo'
                         label='Player 2'
-                        onSubmit={handleSubmit}
+                        onSubmit={(name) => dispatch(setPlayerTwoName(name))}
                     />}
             </div>
-            {playerData.playerOneImage && playerData.playerOneImage ?
+            {playerOneName && playerTwoName ?
                 <Link to={{
                     pathname: 'result',
-                    search: `?playerOneName=${playerData.playerOneName}&playerTwoName=${playerData.playerTwoName}`
+                    search: `?playerOneName=${playerOneName}&playerTwoName=${playerTwoName}`
                 }} className='button'>Battle</Link> :
                 null
             }
