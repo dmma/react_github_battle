@@ -23,7 +23,8 @@ const battleReducer = (state = initialState, action) => {
         case BATTLE.MAKE_BATTLE_LOADING :
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: null
             };
         case BATTLE.MAKE_BATTLE_SUCCESS :
             console.log('MAKE_BATTLE_SUCCESS', action.payload )
