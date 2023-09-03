@@ -1,6 +1,6 @@
 import {useSelector} from "react-redux";
 import {Fragment} from "react";
-import Loader from "./Loader";
+import Loader from "../util/Loader";
 import RepoItem from "./RepoItem";
 
 const RepoList = () => {
