@@ -1,5 +1,4 @@
 import axios from "axios";
-import playerDetails from "./battle/PlayerDetails";
 
 const handleError = (error) => {
     console.log(error);
@@ -15,10 +14,6 @@ const getRepos = (userName) => {
     return axios.get(`https://api.github.com/users/${userName}/repos?per_page=100`)
         .then(repos => repos.data)
         .catch(handleError);
-}
-
-const getStarCount = (repos) => {
-    return repos.reduce((acc, repo) => acc + repo.stargazers_count, 0);
 }
 
 const calculateScore = (profile, repos) => {
@@ -41,7 +36,7 @@ const getUserData = (userName) => {
 
 const sortPlayers = (players) => players.sort((a, b) => b.score - a.score);
 
-export const makeBattle = (players) => {
+export const processBattle = (players) => {
     return Promise.all(players.map(getUserData))
         .then(sortPlayers)
         .catch(handleError);
